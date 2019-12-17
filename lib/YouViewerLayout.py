@@ -6,6 +6,9 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+# --------------------------------------------------------
+
+# 파이선으로 가져온 뒤에는 버튼을 모두 기능에 맞게 네이밍할 것!!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -81,9 +84,9 @@ class Ui_MainWindow(object):
         self.streamCombobox = QtWidgets.QComboBox(self.groupBox_3)
         self.streamCombobox.setGeometry(QtCore.QRect(100, 192, 301, 31))
         self.streamCombobox.setObjectName("streamCombobox")
-        self.pushButton_3 = QtWidgets.QPushButton(self.groupBox_3)
-        self.pushButton_3.setGeometry(QtCore.QRect(260, 260, 141, 51))
-        self.pushButton_3.setObjectName("pushButton_3")
+        self.exitButton = QtWidgets.QPushButton(self.groupBox_3)
+        self.exitButton.setGeometry(QtCore.QRect(260, 260, 141, 51))
+        self.exitButton.setObjectName("exitButton")
         self.startButton = QtWidgets.QPushButton(self.groupBox_3)
         self.startButton.setGeometry(QtCore.QRect(100, 260, 141, 51))
         self.startButton.setObjectName("startButton")
@@ -148,8 +151,8 @@ class Ui_MainWindow(object):
         self.label_6.setText(_translate("MainWindow", "Stream :"))
         self.previewButton.setText(_translate("MainWindow", "Play"))
         self.fileNavButton.setText(_translate("MainWindow", "..."))
-        self.pushButton_3.setText(_translate("MainWindow", "Quit"))
-        self.startButton.setText(_translate("MainWindow", "Start"))
+        self.exitButton.setText(_translate("MainWindow", "Quit"))
+        self.startButton.setText(_translate("MainWindow", "Download"))
         self.groupBox_4.setTitle(_translate("MainWindow", "Log"))
         self.label_2.setText(_translate("MainWindow", "Browser Loading"))
         self.label_4.setText(_translate("MainWindow", "Download Loading"))
