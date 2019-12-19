@@ -2,16 +2,16 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5 import uic
-from PyQt5.QtCore import pyqtSlot, pyqtSignal, QUrl
+from PyQt5.QtCore import pyqtSlot, pyqtSignal, QUrl, QThread
 from lib.YouViewerLayout import Ui_MainWindow
 from lib.AuthDialog import AuthDialog
+from lib.IntroWorker import IntroWorker
+from PyQt5.QtMultimedia import QSound
 
 from pytube import YouTube
 import pytube
 import re
 import datetime
-
-
 
 # 배포 시에는 상대경로로 해야 한다.
 # import os
@@ -38,6 +38,11 @@ class Main(QMainWindow, Ui_MainWindow):
         # 유튜브 관련 작업
         self.youtb = None
         self.youtb_fsize = 0
+        # 배경음악 Thread 작업 선언
+        self.initIntroThread()
+        #Qthread 사용하지 않을 경우
+        # QSound.play('resource/intro.wav') # 이 한줄만 있어도 bgm이 깔리긴 함. option에 repeat같은것도 있고.
+
 
     # 기본 UI 비활성화 (로그인하지 않은 경우)
     def initAuthLock(self):
@@ -75,6 +80,28 @@ class Main(QMainWindow, Ui_MainWindow):
         self.fileNavButton.clicked.connect(self.selectDownPath)
         self.calendarWidget.clicked.connect(self.appendDate)
         self.startButton.clicked.connect(self.downloadYoutb)
+
+    # 인트로 쓰레드 초기화 및 활성화
+    def initIntroThread(self):
+        # worker 선언
+        self.introObj = IntroWorker()
+        # Qthread 선언
+        self.introThread = QThread()
+        # worker To thread 전환
+        self.introObj.moveToThread(self.introThread)
+        # 시그널 연결
+        self.introObj.startMsg.connect(self.showIntroInfo)
+        # Thread 시작 메소드 연결
+        self.introThread.started.connect(self.introObj.playBgm)
+        # Thred 스타트
+        self.introThread.start()
+
+    # 인트로 쓰레드 Signal 실행
+    def showIntroInfo(self, userName, fileName):
+        self.plainTextEdit.appendPlainText("Program Started by :" + userName)
+        self.plainTextEdit.appendPlainText("Playing intro information is :")
+        self.plainTextEdit.appendPlainText(fileName)
+
 
     @pyqtSlot() # annotation
     def authCheck(self):
